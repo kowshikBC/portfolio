@@ -1,0 +1,506 @@
+<!--
+  Simple Personal Portfolio - single file (index.html)
+  - Beginner-friendly HTML + embedded CSS only (no JS, no frameworks)
+  - Responsive, one-page layout with: Home, About, Skills, Projects, Resume, Contact
+  - Skill badges include ALL requested keywords.
+  - Comments show where/how to edit placeholders.
+-->
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Your Name — Portfolio</title>
+
+  <!-- Simple embedded CSS for layout and styling -->
+  <style>
+    /* -------------------------
+       Basic page reset & fonts
+       ------------------------- */
+    :root{
+      --bg:#f7fbff;
+      --card:#ffffff;
+      --accent:#2563eb; /* pleasant blue */
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.8);
+      --max-width:1100px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg,#f7fbff 0%, #f0f6ff 100%);
+      color:#111827;
+      line-height:1.45;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding-bottom:60px;
+    }
+
+    /* -------------------------
+       Page container
+       ------------------------- */
+    .container{
+      max-width:var(--max-width);
+      margin:28px auto;
+      padding:18px;
+    }
+
+    /* -------------------------
+       Navigation (simple & sticky)
+       ------------------------- */
+    header{
+      position:sticky;
+      top:12px;
+      z-index:50;
+      background: linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+      backdrop-filter: blur(6px);
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(32,41,61,0.06);
+      padding:8px;
+    }
+    nav{
+      max-width:var(--max-width);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      padding:6px 12px;
+    }
+    .brand{
+      font-weight:700;
+      color:var(--accent);
+      font-size:1.05rem;
+      margin-right:auto;
+      padding-left:6px;
+    }
+    .nav-links{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .nav-links a{
+      text-decoration:none;
+      color:var(--muted);
+      padding:8px 12px;
+      border-radius:8px;
+      transition: all 180ms ease;
+      font-size:0.95rem;
+    }
+    /* nav link hover highlight (simple animation) */
+    .nav-links a:hover{
+      background:rgba(37,99,235,0.1);
+      color:var(--accent);
+      transform:translateY(-2px);
+      box-shadow:0 6px 18px rgba(37,99,235,0.08);
+    }
+
+    /* -------------------------
+       Hero / Intro section
+       ------------------------- */
+    .hero{
+      display:flex;
+      gap:20px;
+      align-items:center;
+      justify-content:space-between;
+      padding:36px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.5));
+      border-radius:12px;
+      box-shadow: 0 6px 18px rgba(13, 35, 78, 0.04);
+      margin-top:18px;
+      flex-wrap:wrap;
+    }
+    .intro{
+      flex:1 1 480px;
+    }
+    .intro h1{
+      font-size:1.8rem;
+      margin-bottom:8px;
+    }
+    .intro p.lead{
+      color:var(--muted);
+      margin-bottom:12px;
+    }
+    .cta{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+    .btn{
+      text-decoration:none;
+      padding:10px 14px;
+      border-radius:8px;
+      font-weight:600;
+      border:1px solid transparent;
+      transition:all 180ms;
+      background:var(--accent);
+      color:white;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:var(--accent);
+      border-color:rgba(37,99,235,0.12);
+    }
+
+    /* small profile card on right */
+    .profile-card{
+      width:260px;
+      min-width:220px;
+      background:var(--card);
+      border-radius:12px;
+      padding:16px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+      text-align:center;
+      flex:0 0 auto;
+    }
+    .avatar{
+      width:88px;height:88px;border-radius:999px;background:linear-gradient(180deg,var(--accent),#7aa7ff);display:inline-block;margin-bottom:10px;
+      display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:1.6rem;
+      box-shadow:0 8px 20px rgba(37,99,235,0.18);
+    }
+    .muted{color:var(--muted);font-size:0.95rem}
+
+    /* -------------------------
+       Sections (About, Skills, Projects, Resume, Contact)
+       ------------------------- */
+    section{
+      margin-top:22px;
+      padding:18px;
+    }
+    .section-title{
+      display:flex;align-items:center;gap:12px;margin-bottom:14px;
+    }
+    .section-title h2{font-size:1.15rem;margin:0}
+    .section-desc{color:var(--muted);font-size:0.95rem;margin-bottom:10px}
+
+    /* Skills badges */
+    .skills-grid{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .badge{
+      padding:8px 10px;
+      border-radius:999px;
+      background:var(--glass);
+      border:1px solid rgba(15, 23, 42, 0.04);
+      font-weight:600;
+      font-size:0.86rem;
+      color:#0f172a;
+      transition: transform 160ms, box-shadow 160ms;
+    }
+    /* badge hover animation */
+    .badge:hover{transform:translateY(-4px);box-shadow:0 10px 20px rgba(2,6,23,0.06)}
+
+    /* Project cards */
+    .projects-grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(240px,1fr));
+      gap:16px;
+    }
+    .project{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      min-height:140px;
+      box-shadow:0 6px 18px rgba(2,6,23,0.04);
+      transition: transform 180ms, box-shadow 180ms;
+      display:flex;flex-direction:column;gap:8px;
+    }
+    .project:hover{
+      transform:translateY(-8px);
+      box-shadow:0 18px 40px rgba(2,6,23,0.08);
+    }
+    .project h3{margin:0;font-size:1rem}
+    .project p{color:var(--muted);font-size:0.92rem}
+
+    /* Resume table (simple) */
+    .resume-table{
+      width:100%;
+      border-collapse:collapse;
+      background:transparent;
+    }
+    .resume-table th, .resume-table td{
+      text-align:left;
+      padding:10px 12px;
+      border-bottom:1px solid rgba(15,23,42,0.06);
+      vertical-align:top;
+    }
+    .resume-placeholder{color:var(--muted);}
+
+    /* Contact form (simple placeholders) */
+    .contact-grid{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:18px;
+    }
+    .contact-card{
+      background:var(--card);
+      border-radius:12px;padding:16px;
+      box-shadow:0 8px 24px rgba(2,6,23,0.04);
+    }
+    .contact-card p{color:var(--muted)}
+    .small{font-size:0.9rem;color:var(--muted)}
+
+    /* Footer */
+    footer{
+      margin-top:26px;
+      text-align:center;
+      color:var(--muted);
+      font-size:0.9rem;
+      padding:12px 6px;
+    }
+
+    /* -------------------------
+       Responsive adjustments
+       ------------------------- */
+    @media (max-width:880px){
+      .profile-card{width:100%;order:2}
+      .hero{flex-direction:column;align-items:flex-start;padding:18px}
+      .contact-grid{grid-template-columns: 1fr}
+      nav{padding:6px 10px}
+      .brand{font-size:0.98rem}
+    }
+  </style>
+</head>
+<body>
+  <!-- Header / Navigation -->
+  <header>
+    <nav class="container" aria-label="Main navigation">
+      <div class="brand">Your Name</div>
+      <div class="nav-links" role="navigation" aria-label="Section links">
+        <!-- Anchor links to sections below -->
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#resume">Resume</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- HERO / HOME -->
+    <section id="home" class="hero" aria-labelledby="home-title">
+      <div class="intro">
+        <h1 id="home-title">Hi — I'm <span style="color:var(--accent)">Your Name</span></h1>
+        <p class="lead">Beginner-friendly summary: I'm a data scientist / ML engineer learning and building applied AI solutions. I enjoy turning data into insights and building practical machine learning systems.</p>
+
+        <!-- Short bullets with keywords sprinkled -->
+        <div class="small">
+          Experienced with Python (NumPy, Pandas, OOPs), Scikit-learn, TensorFlow, PyTorch, deep learning (ANN, CNN), OpenCV and model deployment on AWS EC2 / MCP server.
+        </div>
+
+        <div class="cta">
+          <a class="btn" href="#projects">See Projects</a>
+          <a class="btn secondary" href="#contact">Contact Me</a>
+        </div>
+
+        <!-- Quick note for editing -->
+        <p class="small" style="margin-top:10px;color:var(--muted)">Tip: replace "Your Name" and the introduction text with your own words in this file.</p>
+      </div>
+
+      <!-- Simple profile card -->
+      <aside class="profile-card" aria-label="Profile card">
+        <div class="avatar">YN</div> <!-- Replace initials -->
+        <div style="font-weight:700">Your Name</div>
+        <div class="muted">Data Scientist • ML Engineer</div>
+        <div style="margin-top:10px;font-size:0.95rem;color:var(--muted)">Bangalore, India</div>
+      </aside>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" aria-labelledby="about-title">
+      <div class="section-title">
+        <h2 id="about-title">About</h2>
+      </div>
+      <p class="section-desc">Friendly short paragraph about you. Replace the placeholder text below with your personal summary, career goals, and what you're learning now.</p>
+
+      <p style="color:var(--muted);margin-top:6px">
+        Placeholder: I have experience working with supervised and unsupervised models, time series forecasting, data analysis and visualization (Tableau, Power BI). I enjoy building RAG systems, experimenting with Transformers, LangChain and applying GenAI methods for practical tasks.
+      </p>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" aria-labelledby="skills-title">
+      <div class="section-title">
+        <h2 id="skills-title">Skills & Tech Stack</h2>
+      </div>
+      <p class="section-desc">All key skills are included as badges below — edit, remove or reorder as needed.</p>
+
+      <!-- Skills grid (ALL requested skills are present as badges) -->
+      <div class="skills-grid" style="margin-top:10px">
+        <!-- Programming & libraries -->
+        <span class="badge">Python (NumPy)</span>
+        <span class="badge">Pandas</span>
+        <span class="badge">OOPs</span>
+        <span class="badge">TensorFlow</span>
+        <span class="badge">PyTorch</span>
+        <span class="badge">Scikit-learn (Sklearn)</span>
+
+        <!-- Data viz -->
+        <span class="badge">Tableau</span>
+        <span class="badge">Power BI</span>
+
+        <!-- Data & web -->
+        <span class="badge">SQL</span>
+        <span class="badge">Flask</span>
+        <span class="badge">FastAPI</span>
+
+        <!-- ML & DL -->
+        <span class="badge">Machine Learning</span>
+        <span class="badge">Linear Regression</span>
+        <span class="badge">Logistic Regression</span>
+        <span class="badge">Clustering</span>
+        <span class="badge">Classification</span>
+        <span class="badge">Time Series Forecasting</span>
+        <span class="badge">Data Analysis</span>
+        <span class="badge">Deep Learning (ANN)</span>
+        <span class="badge">Deep Learning (CNN)</span>
+
+        <!-- Images & infra -->
+        <span class="badge">OpenCV</span>
+        <span class="badge">AWS EC2</span>
+        <span class="badge">MCP server</span>
+
+        <!-- Advanced & GenAI -->
+        <span class="badge">Fine-tuning</span>
+        <span class="badge">Jupyter Notebook</span>
+        <span class="badge">Applied Statistics</span>
+        <span class="badge">GenAI</span>
+        <span class="badge">NLP</span>
+        <span class="badge">RAG</span>
+        <span class="badge">LangChain</span>
+        <span class="badge">Transformers</span>
+        <span class="badge">Agentic AI</span>
+      </div>
+
+      <!-- Short edit note -->
+      <p class="small" style="margin-top:10px">To edit badges: find & replace the badge text in this HTML file. Each <code>&lt;span class="badge"&gt;</code> is one skill.</p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="section-title">
+        <h2 id="projects-title">Projects</h2>
+      </div>
+      <p class="section-desc">Example project cards using the skills above. Replace these with your project details.</p>
+
+      <div class="projects-grid" style="margin-top:12px">
+        <!-- Project 1 -->
+        <article class="project" aria-labelledby="p1">
+          <h3 id="p1">RAG-HR Chatbot (Demo)</h3>
+          <p>Built a Retrieval-Augmented Generation (RAG) HR chatbot prototype using Python, LangChain and FAISS. Backend: FastAPI; demonstrated document chunking and semantic search. Skills: RAG, LangChain, Transformers, FastAPI, Python.</p>
+          <div class="small" style="margin-top:auto;color:var(--muted)">Keywords: RAG • LangChain • Transformers • FastAPI • Python</div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="project" aria-labelledby="p2">
+          <h3 id="p2">Flight Fare Prediction</h3>
+          <p>Regression pipeline for flight fare prediction using scikit-learn and XGBoost. Included feature engineering, time series handling and model evaluation. Skills: Sklearn, time series forecasting, regression, SQL, Jupyter Notebook.</p>
+          <div class="small" style="margin-top:auto;color:var(--muted)">Keywords: Regression • Time Series • Sklearn • Jupyter Notebook</div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="project" aria-labelledby="p3">
+          <h3 id="p3">Image-based Disease Classifier</h3>
+          <p>Convolutional Neural Network (CNN) for rice leaf disease detection using OpenCV for preprocessing and PyTorch/TensorFlow for training; deployed a simple Flask demo to test on AWS EC2. Skills: OpenCV, CNN, PyTorch, TensorFlow, Flask, AWS EC2.</p>
+          <div class="small" style="margin-top:auto;color:var(--muted)">Keywords: CNN • OpenCV • PyTorch • TensorFlow • Flask</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- RESUME (simple table with placeholders) -->
+    <section id="resume" aria-labelledby="resume-title">
+      <div class="section-title">
+        <h2 id="resume-title">Resume (Quick View)</h2>
+      </div>
+
+      <p class="section-desc">This is a minimal resume table. Replace placeholder text with your real education, experience, and certifications.</p>
+
+      <table class="resume-table" role="table" aria-label="Resume table">
+        <thead>
+          <tr>
+            <th style="width:180px">Section</th>
+            <th>Details (Replace these placeholders)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Profile</strong></td>
+            <td class="resume-placeholder">Your short professional summary (example: "Motivated Data Scientist skilled in Python, ML, and Deep Learning...")</td>
+          </tr>
+
+          <tr>
+            <td><strong>Education</strong></td>
+            <td class="resume-placeholder">
+              Your Education Placeholder<br>
+              Example: B.Sc. Computer Science — University Name — Year
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Work Experience</strong></td>
+            <td class="resume-placeholder">
+              Your Experience Placeholder — Job Title, Company, Dates<br>
+              Example bullet: Built predictive models (Logistic Regression, Random Forest) for business use.
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Skills</strong></td>
+            <td>
+              <!-- replicate / reference the skills listed above -->
+              Python (NumPy, Pandas, OOPs), TensorFlow, PyTorch, Sklearn, Tableau, Power BI, SQL, Flask, FastAPI, Machine Learning (linear regression, logistic regression, clustering, classification), Time Series Forecasting, Data Analysis, Deep Learning (ANN, CNN), OpenCV, AWS EC2, MCP server, Fine-tuning, Jupyter Notebook, Applied Statistics, GenAI (NLP, RAG, LangChain, Transformers, Agentic AI)
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Certifications</strong></td>
+            <td class="resume-placeholder">Example: Certified Data Scientist — Provider — Year</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="small" style="margin-top:10px">To replace the resume placeholders: open this file in a text editor and replace the text under each table cell.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section-title">
+        <h2 id="contact-title">Contact</h2>
+      </div>
+
+      <div class="contact-grid" aria-live="polite">
+        <div class="contact-card">
+          <h3 style="margin-bottom:8px">Get in touch</h3>
+          <p class="small">Replace the placeholders below with your actual contact details.</p>
+
+          <p style="margin-top:8px"><strong>Name:</strong> Your Name</p>
+          <p><strong>Email:</strong> your.email@example.com</p>
+          <p><strong>LinkedIn:</strong> linkedin.com/in/your-linkedin</p>
+
+          <p style="margin-top:12px" class="small">Tip: you can change these values directly in this HTML file.</p>
+        </div>
+
+        <div class="contact-card" style="display:flex;flex-direction:column;gap:6px">
+          <h4 style="margin:0">Invite</h4>
+          <p class="small">Want a downloadable resume or to add a real contact form? I can show you simple HTML-only options or a basic Mailto link. For now, this card is for quick contact info.</p>
+
+          <p class="small"><strong>Quick share:</strong> <code>mailto:your.email@example.com?subject=Hello%20from%20portfolio</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <div>Made with ♥ • Simple portfolio template • Edit freely</div>
+    </footer>
+  </main>
+
+  <!-- No JavaScript used. This is a static, single-file portfolio. -->
+</body>
+</html>
